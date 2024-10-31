@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Interface</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 100vh;
+            background-color: #fff;
+            padding: 20px 0;
+            gap: 30px; /* Adjustable gap between sections */
+        }
+
+        .chatbot-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            gap: 30px; /* Adjustable gap between elements in chatbot container */
+        }
+
+        /* Title and Timestamp */
+        .title-green {
+            font-size: 2rem; /* Use rem for responsive font size */
+            color: #59ce72; /* Darker green for better contrast */
+            font-weight: 600;
+            margin-top: 20px;
+            margin-bottom: 0; /* Fixed margin-bottom */
+        }
+
+        .timestamp {
+            font-size: 1.25rem; /* Use rem for responsive font size */
+            color: #333;
+            font-weight: 400;
+            margin-top: -15px; /* Gap between timestamp and ring */
+        }
+
+        /* Sound Reactive Ring Animation */
+        .ring-container {
+            position: relative;
+            width: 100px; /* Set a base size */
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 70px auto 20px;
+        }
+
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            border-style: solid;
+            border-color: #59ce72;
+        }
+
+        .ring1 {
+            width: 50%;
+            height: 50%;
+            border-width: 25px;
+            opacity: 1;
+            border-color: #59ce72;
+        }
+
+        .ring2 {
+            width: 100%;
+            height: 100%;
+            border-width: 25px;
+            opacity: 0.75;
+            border-color: #59ce72;
+        }
+
+        .ring3 {
+            width: 150%;
+            height: 150%;
+            border-width: 25px;
+            opacity: 0.5;
+            transition: transform 0.1s ease-out;
+            border-color: #59ce72;
+        }
+
+        /* Response Section */
+        .response {
+            font-size: 1rem; /* Use rem for responsive font size */
+            color: #666;
+            font-weight: 400;
+            margin-top: 40px; /* Gap between response and message box */
+        }
+
+        /* Message Box */
+        .message-box-container {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            background-color: #333;
+            padding: 10px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            gap: 20px; /* Adjust gap for better spacing */
+            margin-top: 50px; /* Reduced margin for mobile */
+        }
+
+        #message-box {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+            color: #a3d6a7;
+            background: transparent;
+            font-size: 1rem; /* Use rem for responsive font size */
+        }
+
+        #send-button {
+            background-color: #43a047;
+            border: none;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 900px) { /* Tablet */
+            .chatbot-container {
+                padding: 15px; /* Padding adjustments for tablets */
+            }
+
+            .title-green {
+                font-size: 1.75rem; /* Smaller title font size for tablets */
+            }
+
+            .timestamp {
+                font-size: 1rem; /* Smaller timestamp font size for tablets */
+            }
+
+            .ring-container {
+                width: 100px; /* Adjusted size for tablets */
+                height: 100px; /* Adjusted size for tablets */
+            }
+
+            .response {
+                font-size: 0.875rem; /* Smaller response font size for tablets */
+            }
+
+            .message-box-container {
+                margin-top: 30px; /* Reduced margin for tablets */
+            }
+
+            #message-box {
+                font-size: 0.875rem; /* Smaller input font size for tablets */
+            }
+
+            #send-button {
+                padding: 8px 12px; /* Smaller button padding for tablets */
+            }
+        }
+
+        @media (max-width: 600px) { /* Mobile */
+            .chatbot-container {
+                padding: 10px; /* Padding adjustments for mobile */
+            }
+
+            .title-green {
+                font-size: 1.5rem; /* Smaller title font size for mobile */
+            }
+
+            .timestamp {
+                font-size: 0.875rem; /* Smaller timestamp font size for mobile */
+            }
+
+            .ring-container {
+                width: 80px; /* Smaller ring for mobile */
+                height: 80px; /* Smaller ring for mobile */
+            }
+
+            .response {
+                font-size: 0.75rem; /* Smaller response font size for mobile */
+            }
+
+            .message-box-container {
+                gap: 10px; /* Adjusted gap for mobile */
+                margin-top: 20px; /* Reduced margin for mobile */
+            }
+
+            #message-box {
+                font-size: 0.875rem; /* Smaller input font size for mobile */
+            }
+
+            #send-button {
+                padding: 8px 12px; /* Smaller button padding for mobile */
+            }
+        }
+
+        @media (max-width: 400px) { /* Very small screens */
+            .title-green {
+                font-size: 1.25rem; /* Even smaller title font size */
+            }
+
+            .timestamp {
+                font-size: 0.75rem; /* Even smaller timestamp font size */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chatbot-container">
+        <h1 class="title-green">Chatbot Title</h1>
+        <div class="timestamp" id="timestamp"></div>
+        <div class="ring-container">
+            <div class="ring ring1"></div>
+            <div class="ring ring2"></div>
+            <div class="ring ring3"></div>
+        </div>
+        <div class="response" id="response"></div>
+        <div class="message-box-container">
+            <input type="text" id="message-box" placeholder="Type a message...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const sendButton = document.getElementById("send-button");
+            const messageBox = document.getElementById("message-box");
+            const responseDiv = document.getElementById("response");
+            const timestampDiv = document.getElementById("timestamp");
+
+            // Function to get the current timestamp
+            function updateTimestamp() {
+                const now = new Date();
+                const options = { hour: '2-digit', minute: '2-digit', hour12: true };
+                timestampDiv.innerText = now.toLocaleString('en-US', options);
+            }
+
+            // Event listener for sending a message
+            sendButton.addEventListener("click", () => {
+                const userMessage = messageBox.value.trim();
+                if (userMessage) {
+                    responseDiv.innerText = userMessage; // Display user message
+                    messageBox.value = ''; // Clear the input box
+                    updateTimestamp(); // Update the timestamp
+                }
+            });
+
+            // Optional: Send message on pressing Enter key
+            messageBox.addEventListener("keypress", (event) => {
+                if (event.key === "Enter") {
+                    sendButton.click(); // Trigger click on send button
+                }
+            });
+
+            // Initialize timestamp on page load
+            updateTimestamp();
+        });
+    </script>
+</body>
+</html>
