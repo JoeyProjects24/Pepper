@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot Interface</title>
+    <title>Pepper AI Language Model</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
@@ -20,7 +21,7 @@
             min-height: 100vh;
             background-color: #fff;
             padding: 20px 0;
-            gap: 30px; /* Adjustable gap between sections */
+            margin: 20px;
         }
 
         .chatbot-container {
@@ -35,24 +36,36 @@
 
         /* Title and Timestamp */
         .title-green {
-            font-size: 2rem; /* Use rem for responsive font size */
+            font-size: 29px; /* Increased font size for visibility */
             color: #59ce72; /* Darker green for better contrast */
             font-weight: 600;
             margin-top: 20px;
-            margin-bottom: 0; /* Fixed margin-bottom */
+            margin-bottom: px; /* Gap between title and timestamp */
         }
 
         .timestamp {
-            font-size: 1.25rem; /* Use rem for responsive font size */
+            font-size: 20px;
             color: #333;
             font-weight: 400;
-            margin-top: -15px; /* Gap between timestamp and ring */
+            margin-top: -15px;/* Gap between timestamp and ring */
         }
 
         /* Sound Reactive Ring Animation */
         .ring-container {
             position: relative;
-            width: 100px; /* Set a base size */
+            width: 160px; /* Larger container width */
+            height: 160px; /* Larger container height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px 0;
+            gaps: 50px;
+        }
+
+
+         .ring-container {
+            position: relative;
+            width: 100px;
             height: 100px;
             display: flex;
             align-items: center;
@@ -91,10 +104,10 @@
             transition: transform 0.1s ease-out;
             border-color: #59ce72;
         }
-
+        
         /* Response Section */
         .response {
-            font-size: 1rem; /* Use rem for responsive font size */
+            font-size: 16px;
             color: #666;
             font-weight: 400;
             margin-top: 40px; /* Gap between response and message box */
@@ -110,8 +123,9 @@
             border-radius: 10px;
             width: 100%;
             max-width: 400px;
-            gap: 20px; /* Adjust gap for better spacing */
-            margin-top: 50px; /* Reduced margin for mobile */
+            gap: 100px; /* Adjustable gap between input and button */
+            margin-top: 100px; /* Gap between message box and end of container */
+            width: 1000px;
         }
 
         #message-box {
@@ -121,7 +135,8 @@
             outline: none;
             color: #a3d6a7;
             background: transparent;
-            font-size: 1rem; /* Use rem for responsive font size */
+            font-size: 16px;
+            
         }
 
         #send-button {
@@ -131,56 +146,22 @@
             padding: 10px 15px;
             border-radius: 50%;
             cursor: pointer;
+            
             font-weight: 600;
         }
 
         /* Responsive Styles */
-        @media (max-width: 900px) { /* Tablet */
-            .chatbot-container {
-                padding: 15px; /* Padding adjustments for tablets */
-            }
-
-            .title-green {
-                font-size: 1.75rem; /* Smaller title font size for tablets */
-            }
-
-            .timestamp {
-                font-size: 1rem; /* Smaller timestamp font size for tablets */
-            }
-
-            .ring-container {
-                width: 100px; /* Adjusted size for tablets */
-                height: 100px; /* Adjusted size for tablets */
-            }
-
-            .response {
-                font-size: 0.875rem; /* Smaller response font size for tablets */
-            }
-
-            .message-box-container {
-                margin-top: 30px; /* Reduced margin for tablets */
-            }
-
-            #message-box {
-                font-size: 0.875rem; /* Smaller input font size for tablets */
-            }
-
-            #send-button {
-                padding: 8px 12px; /* Smaller button padding for tablets */
-            }
-        }
-
-        @media (max-width: 600px) { /* Mobile */
+        @media (max-width: 600px) {
             .chatbot-container {
                 padding: 10px; /* Padding adjustments for mobile */
             }
 
             .title-green {
-                font-size: 1.5rem; /* Smaller title font size for mobile */
+                font-size: 24px; /* Smaller title font size for mobile */
             }
 
             .timestamp {
-                font-size: 0.875rem; /* Smaller timestamp font size for mobile */
+                font-size: 16px; /* Smaller timestamp font size for mobile */
             }
 
             .ring-container {
@@ -189,16 +170,16 @@
             }
 
             .response {
-                font-size: 0.75rem; /* Smaller response font size for mobile */
+                font-size: 14px; /* Smaller response font size for mobile */
             }
 
             .message-box-container {
                 gap: 10px; /* Adjusted gap for mobile */
-                margin-top: 20px; /* Reduced margin for mobile */
+                margin-top: 50px; /* Reduced margin for mobile */
             }
 
             #message-box {
-                font-size: 0.875rem; /* Smaller input font size for mobile */
+                font-size: 14px; /* Smaller input font size for mobile */
             }
 
             #send-button {
@@ -206,21 +187,21 @@
             }
         }
 
-        @media (max-width: 400px) { /* Very small screens */
+        @media (max-width: 400px) {
             .title-green {
-                font-size: 1.25rem; /* Even smaller title font size */
+                font-size: 20px; /* Even smaller title font size for very small screens */
             }
 
             .timestamp {
-                font-size: 0.75rem; /* Even smaller timestamp font size */
+                font-size: 14px; /* Even smaller timestamp font size for very small screens */
             }
         }
     </style>
 </head>
 <body>
     <div class="chatbot-container">
-        <h1 class="title-green">Chatbot Title</h1>
-        <div class="timestamp" id="timestamp"></div>
+        <h1 style="font-weight: 100; font-size: 29px;"><span class="title-green">Pepper AI</span> Language Model</h1>
+        <p class="timestamp" id="current-timestamp"></p>
         <div class="ring-container">
             <div class="ring ring1"></div>
             <div class="ring ring2"></div>
@@ -228,45 +209,100 @@
         </div>
         <div class="response" id="response"></div>
         <div class="message-box-container">
-            <input type="text" id="message-box" placeholder="Type a message...">
-            <button id="send-button">Send</button>
+            <input type="text" placeholder="Type something..." id="message-box">
+            <button id="send-button">➤</button>
         </div>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const sendButton = document.getElementById("send-button");
-            const messageBox = document.getElementById("message-box");
-            const responseDiv = document.getElementById("response");
-            const timestampDiv = document.getElementById("timestamp");
+        function updateTimestamp() {
+            const now = new Date();
+            const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const day = days[now.getDay()];
+            const date = now.getDate();
+            const month = months[now.getMonth()];
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('current-timestamp').textContent = `${hours}:${minutes} ${day}, ${date} ${month}`;
+        }
 
-            // Function to get the current timestamp
-            function updateTimestamp() {
-                const now = new Date();
-                const options = { hour: '2-digit', minute: '2-digit', hour12: true };
-                timestampDiv.innerText = now.toLocaleString('en-US', options);
+        function displayResponse(message) {
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML = `<p>${message}</p><small>${getCurrentTime()}</small>`;
+            speak(message); // Call the speak function to convert text to speech
+        }
+
+        function getCurrentTime() {
+            const now = new Date();
+            return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+        }
+
+        function getChatbotResponse(input) {
+            const responses = {
+                "hello": "Hello! How can I assist you today?",
+                "how are you?": "I'm just a program, but I'm here to help you!",
+                "what is your name?": "I'm Pepper AI, your virtual assistant!",
+                "bye": "Goodbye! Have a great day!",
+                "default": "I'm not sure how to respond to that."
+            };
+
+            const lowerCaseInput = input.toLowerCase();
+            return responses[lowerCaseInput] || responses["default"];
+        }
+
+        function speak(message) {
+            const speech = new SpeechSynthesisUtterance(message);
+            speech.lang = 'en-US';
+            speech.rate = 1.9;
+            speech.pitch = 1.9;
+            window.speechSynthesis.speak(speech);
+        }
+
+        function sendMessage() {
+            const message = document.getElementById('message-box').value;
+            if (message.trim()) {
+                const responseMessage = getChatbotResponse(message);
+                displayResponse(responseMessage);
+                document.getElementById('message-box').value = "";
             }
+        }
 
-            // Event listener for sending a message
-            sendButton.addEventListener("click", () => {
-                const userMessage = messageBox.value.trim();
-                if (userMessage) {
-                    responseDiv.innerText = userMessage; // Display user message
-                    messageBox.value = ''; // Clear the input box
-                    updateTimestamp(); // Update the timestamp
-                }
-            });
-
-            // Optional: Send message on pressing Enter key
-            messageBox.addEventListener("keypress", (event) => {
-                if (event.key === "Enter") {
-                    sendButton.click(); // Trigger click on send button
-                }
-            });
-
-            // Initialize timestamp on page load
-            updateTimestamp();
+        document.getElementById('send-button').addEventListener('click', sendMessage);
+        document.getElementById('message-box').addEventListener('keydown', function(event) {
+            if (event.key === "Enter") sendMessage();
         });
+
+        async function initAudio() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+
+                const source = audioContext.createMediaStreamSource(stream);
+                source.connect(analyser);
+
+                const dataArray = new Uint8Array(analyser.frequencyBinCount);
+                const ring3 = document.querySelector('.ring3');
+
+                function animateRing() {
+                    analyser.getByteFrequencyData(dataArray);
+                    const average = dataArray.reduce((sum, val) => sum + val, 0) / dataArray.length;
+                    const scale = 1 + (average / 128);
+                    ring3.style.transform = `scale(${scale})`;
+                    requestAnimationFrame(animateRing);
+                }
+
+                animateRing();
+            } catch (err) {
+                console.error('Microphone access denied or not available', err);
+            }
+        }
+
+        initAudio();
+        updateTimestamp();
+        setInterval(updateTimestamp, 60000);
     </script>
 </body>
 </html>
